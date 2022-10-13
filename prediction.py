@@ -2,7 +2,10 @@ from srcs.perceptron import  Perceptron
 import pandas as pd
 
 def main():
-    df = pd.read_csv("./data.csv")
+    try :
+        df = pd.read_csv("./data.csv")
+    except:
+        raise Exception("Error while opening data.csv")
 
     X = df.iloc[0:,0].values
     y = df.iloc[0:,1].values
@@ -16,8 +19,8 @@ def main():
         df = pd.read_csv('./model.csv', header=None)
         percep._theta0 = df.iloc[0, 0]
         percep._theta1 = df.iloc[0, 1]
-
     except:
+        print("Model.csv not found or corrupted.")
         pass
 
     km_search = input('Kilometrage ? : ')
@@ -26,7 +29,10 @@ def main():
         km_search = input('Kilometrage ? : ')
 
     km_search = (float(km_search) - mean) / std
-    print(percep.predict(km_search))
+    predicted_price = percep.predict(km_search)
+    if predicted_price < 0:
+        predicted_price = 0.0
+    print(predicted_price)
 
 if __name__ == "__main__":
     main()

@@ -12,11 +12,15 @@ def show_model(percep, X_std, X, y):
   plt.show()
 
 def main(visual=False,precision=False):
-    df = pd.read_csv("./data.csv")
-
+    try :
+        df = pd.read_csv("./data.csv")
+    except:
+        raise Exception("Error while opening data.csv")
+            
     X = df.iloc[0:,0].values
     y = df.iloc[0:,1].values
 
+    # Standardization Scaling
     mean = X[0:].mean() # Moyenne des données
     std = X[0:].std() # Écart type
     X_std = (X[0:] - mean) / std # Normalize data
